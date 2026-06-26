@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💎 Calculator </title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{
+min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;
+background:linear-gradient(-45deg,#0f172a,#312e81,#2563eb,#7c3aed);
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+}
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+.calc{
+width:390px;background:rgba(255,255,255,.08);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.1);
+border-radius:30px;padding:20px;color:#fff;
+box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+
+.display{
+height:90px;background:rgba(255,255,255,.06);
+border-radius:18px;margin-bottom:15px;padding:20px;
+font-size:34px;display:flex;justify-content:flex-end;align-items:center;
+overflow:hidden;
+}
+
+.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+button{
+height:65px;border:none;border-radius:16px;color:white;
+background:rgba(255,255,255,.08);font-size:20px;cursor:pointer;
+transition:.25s;
+}
+button:hover{
+transform:translateY(-4px) scale(1.05);
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
+
+.op{background:linear-gradient(135deg,#7c3aed,#2563eb)}
+.eq{background:linear-gradient(135deg,#10b981,#22c55e)}
+
+.popup{
+position:fixed;inset:0;background:rgba(0,0,0,.75);
+display:none;justify-content:center;align-items:center;padding:20px;
+backdrop-filter:blur(12px);
+}
+
+.card{
+width:520px;max-width:100%;
+background:#151c36;color:#fff;padding:25px;border-radius:24px;
+max-height:90vh;overflow:auto;
+animation:premiumPop .35s ease;
+}
+
+@keyframes premiumPop{
+0%{opacity:0;transform:scale(.8) translateY(30px)}
+100%{opacity:1;transform:scale(1) translateY(0)}
+}
+
+.plan{
+background:rgba(255,255,255,.05);
+padding:12px;border-radius:14px;margin-top:10px
+}
+
+.trial{
+border:2px solid #22c55e;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{box-shadow:0 0 15px rgba(34,197,94,.25)}
+to{box-shadow:0 0 35px rgba(34,197,94,.6)}
+}
+
+.badge{
+background:linear-gradient(135deg,#f59e0b,#fbbf24);
+color:#111;padding:4px 10px;border-radius:999px;
+font-size:11px;font-weight:bold;
+}
+
+.claim,.close{
+width:100%;height:48px;border:none;border-radius:12px;margin-top:10px;color:white
+}
+.claim{background:#22c55e}
+.close{background:#4f46e5}
+
+.qr{
+margin:15px 0;padding:16px;border:2px dashed rgba(255,255,255,.2);
+border-radius:12px;text-align:center
+}
+</style>
+</head>
+<body>
+
+<div class="calc">
+<div class="display" id="display">0</div>
+
+<div class="buttons">
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button class="op" onclick="add('/')">÷</button>
+
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button class="op" onclick="add('*')">×</button>
+
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button class="op" onclick="add('-')">−</button>
+
+<button onclick="clearPremium()">C</button>
+<button onclick="add('0')">0</button>
+<button class="eq" onclick="calc()">=</button>
+<button class="op" onclick="add('+')">+</button>
+</div>
+</div>
+
+<div class="popup" id="popup">
+<div class="card">
+<h1>💎 Calculator </h1>
+<p>Pilih paket yang sesuai untuk menggunakan kalkulator</p>
+
+<div class="qr">
+<img src="gopay.jpg" style="width:100%;border-radius:12px;">
+</div>
+
+<div class="plan trial">
+<h3>🎁 Free Trial</h3>
+<p><b>GRATIS</b></p>
+✓ 3x Penghapusan Angka<br>
+✓ Aktivasi Instan<br>
+✓ Tanpa Kartu Kredit
+<button class="claim" onclick="claimTrial()">Claim Free Trial</button>
+</div>
+
+<div class="plan">
+<h3>🥉 Basic Plan</h3>
+Rp 399.000 / bulan<br>
+✓ Clear Button Access<br>
+✓ Unlimited Delete<br>
+✓ Premium Support
+</div>
+
+<div class="plan">
+<h3>🥈 Pro Plan <span class="badge">MOST POPULAR</span></h3>
+Rp 1.999.000 / 6 bulan<br>
+✓ Semua fitur Basic<br>
+✓ Faster Deletion Technology™<br>
+✓ Priority Erasing Engine
+</div>
+
+<div class="plan">
+<h3>🥇 Ultimate Plan</h3>
+Rp 3.499.000 / tahun<br>
+✓ AI-Powered Clear Button<br>
+✓ Quantum Deletion System™<br>
+✓ Golden C Button
+</div>
+
+<div class="plan">
+<h3>👑 Enterprise</h3>
+Rp 99.999.999 / tahun<br>
+✓ Dedicated Delete Manager<br>
+✓ Corporate Erasing Suite
+</div>
+
+<button class="close" onclick="hidePopup()">Maybe Later</button>
+</div>
+</div>
+
+<script>
+const display=document.getElementById('display');
+let trialClaimed=false;
+let trial=0;
+
+function add(v){
+display.innerText=display.innerText==='0'?v:display.innerText+v;
+}
+
+function calc(){
+try{display.innerText=eval(display.innerText)}
+catch{display.innerText='Error'}
+}
+
+function clearPremium(){
+if(!trialClaimed){showPopup();return;}
+if(trial>0){
+trial--;
+display.innerText='0';
+return;
+}
+showPopup();
+}
+
+function claimTrial(){
+trialClaimed=true;
+trial=3;
+hidePopup();
+alert('🎉 FREE TRIAL ACTIVATED!\n\nAnda mendapatkan 3x penggunaan tombol C.');
+}
+
+function showPopup(){
+document.getElementById('popup').style.display='flex';
+}
+
+function hidePopup(){
+document.getElementById('popup').style.display='none';
+}
+</script>
+
+</body>
+</html>
